@@ -14,7 +14,7 @@ const ContactListComponent = () => {
   return (
     <Container>
       {contactList.map((userData) => (
-        <ContactComponent userData={userData} />
+        <ContactComponent key={userData.id} userData={userData} />
       ))}
     </Container>
   );
