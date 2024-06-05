@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import styled from "styled-components";
 import conversationContext from "../../context/conversation/conversationContext";
 
@@ -24,10 +24,15 @@ const ContactInfo = styled.div`
 
 const ContactComponent = (props) => {
   const { userData } = props;
-  const { updateUser } = useContext(conversationContext);
+  const { updateUser, draftMsg, updateDraftMessage, user } = useContext(conversationContext);
   const onClickContactHandler = () => {
+    if(draftMsg) {
+      localStorage.setItem(`draft-${user.id}`, draftMsg);
+      updateDraftMessage('');
+    }
     updateUser(userData);
   }
+  
   return (
     <>
       <ContactItem>

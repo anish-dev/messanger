@@ -4,11 +4,15 @@ import { contactList } from "../../Data";
 
 const ConversationState = (props) => {
     const [user, setUser] = useState(contactList[0]);
+    const [ draftMsg, setDraftMsg] = useState('');
+    const updateDraftMessage = (draft) => {
+        setDraftMsg(draft);
+    };
     const updateUser = (user) => {
         setUser(user);
     }
     return (
-        <ConversationContext.Provider value={{user, updateUser}}>
+        <ConversationContext.Provider value={{user, updateUser, updateDraftMessage, draftMsg}}>
             {props.children}
         </ConversationContext.Provider>
     )

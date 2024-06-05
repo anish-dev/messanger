@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
+import conversationContext from "../../context/conversation/conversationContext";
 
 export const InputContainer = styled.div`
   display: flex;
@@ -20,22 +21,26 @@ export const Input = styled.input`
   color: black;
 `;
 
-const InputBoxComp = ({ onMessageSubmitHandler }) => {
-  const [text, setText] = useState("");
-
+const InputBoxComp = ({ onMessageSubmitHandler, draft, user }) => {
+  const [text, setText] = useState(draft);
+  const { updateDraftMessage } = useContext(conversationContext);
   const onEnterHandler = (e) => {
     if (e.keyCode === 13) {
       onMessageSubmitHandler(e);
       setText("");
     }
   };
+
   return (
     <InputContainer>
       <Input
         placeholder="Type a message"
         onKeyDown={onEnterHandler}
         value={text}
-        onChange={(e) => setText(e.target.value)}
+        onChange={(e) => {
+          setText(e.target.value);
+          updateDraftMessage(e.target.value);
+        }}
       />
     </InputContainer>
   );

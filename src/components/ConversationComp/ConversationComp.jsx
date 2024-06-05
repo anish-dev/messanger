@@ -33,9 +33,10 @@ const ChatBox = styled.div`
 const ConversationComponent = () => {
   const { user } = useContext(conversationContext);
   let messages = JSON.parse(localStorage.getItem(user.id));
+  let draftMessage = localStorage.getItem(`draft-${user.id}`);
   const [chatList, setChatList] = useState(null);
   const onMessageSubmit = (event) => {
-    let updatedChatList = [...chatList];
+    let updatedChatList = chatList ? [...chatList] : [];
     updatedChatList.push({
       text: event.target.value,
       senderID: 0,
@@ -53,7 +54,12 @@ const ConversationComponent = () => {
           <ProfileHeader>{user.name}</ProfileHeader>
           <MessageContainerComp messageList={chatList} />
           <ChatBox>
-            <InputBoxComp onMessageSubmitHandler={onMessageSubmit} />
+            <InputBoxComp
+              key={user.id}
+              onMessageSubmitHandler={onMessageSubmit}
+              draft={draftMessage}
+              user={user}
+            />
           </ChatBox>
         </>
       )}
